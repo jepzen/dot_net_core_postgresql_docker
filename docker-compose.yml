@@ -6,3 +6,26 @@ services:
     build:
       context: .
       dockerfile: coreondocker/Dockerfile
+    networks:
+      - overlay
+    depends_on:
+      - "postgres-db"
+
+  postgres-db:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: example
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - overlay
+
+
+volumes:
+  pgdata:
+
+networks:
+  overlay:
